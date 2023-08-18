@@ -1,6 +1,6 @@
 body {
     --s: 37px;
-    --c: transparent, #091354, #cc56fb63;
+    --c: transparent, #091354, #cc56fb1a;
     --g1: conic-gradient(from 60deg at 56.25% calc(425% / 6), var(--c));
     --g2: conic-gradient(from 180deg at 43.75% calc(425% / 6), var(--c));
     --g3: conic-gradient(from -60deg at 50% calc(175% / 12), var(--c));

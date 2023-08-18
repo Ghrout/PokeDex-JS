@@ -3,19 +3,19 @@ const spinner = document.querySelector("#spinner");
 const previous = document.querySelector("#previous");
 const next = document.querySelector("#next");
 
-let limit = 9;
+let limit = 11;
 let offset = 1;
 
 previous.addEventListener("click", () => {
     if (offset != 1) {
-        offset -= 9;
+        offset -= 11;
         removeChildNodes(pokemonContainer);
         fetchPokemons(offset, limit);
     }
 });
 
 next.addEventListener("click", () => {
-    offset += 9;
+    offset += 11;
     removeChildNodes(pokemonContainer);
     fetchPokemons(offset, limit);
 });
