@@ -3,19 +3,19 @@ const spinner = document.querySelector("#spinner");
 const previous = document.querySelector("#previous");
 const next = document.querySelector("#next");
 
-let limit = 12;
-let offset = 0;
+let limit = 9;
+let offset = 1;
 
 previous.addEventListener("click", () => {
     if (offset != 1) {
-        offset -= 8;
+        offset -= 9;
         removeChildNodes(pokemonContainer);
         fetchPokemons(offset, limit);
     }
 });
 
 next.addEventListener("click", () => {
-    offset += 8;
+    offset += 9;
     removeChildNodes(pokemonContainer);
     fetchPokemons(offset, limit);
 });
@@ -81,11 +81,11 @@ function progressBars(stats) {
     const statsContainer = document.createElement("div");
     statsContainer.classList.add("stats-container");
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
         const stat = stats[i];
 
-        const statPercent = stat.base_stat / 2 + "%";
-        const statContainer = document.createElement("stat-container");
+        const statPercent = (stat.base_stat / 2) + "%";
+        const statContainer = document.createElement("div");
         statContainer.classList.add("stat-container");
 
         const statName = document.createElement("p");
@@ -113,6 +113,7 @@ function progressBars(stats) {
     return statsContainer;
 }
 
+
 function removeChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
@@ -124,3 +125,37 @@ pokemonContainer.style.display = "grid";
 pokemonContainer.style.gridTemplateColumns = "repeat(auto-fill, minmax(300px, 1fr))";
 pokemonContainer.style.gap = "20px";
 pokemonContainer.classList.add("pokemon-container");
+
+
+const searchInput = document.getElementById("search-input");
+const searchButton = document.getElementById("search-button");
+
+searchButton.addEventListener("click", () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    if (searchTerm.trim() !== "") {
+        searchPokemons(searchTerm);
+    }
+});
+
+function searchPokemons(searchTerm) {
+    removeChildNodes(pokemonContainer);
+    spinner.style.display = "block";
+
+    fetch(`https://pokeapi.co/api/v2/pokemon/${searchTerm}`)
+        .then((res) => res.json())
+        .then((data) => {
+            if (data) {
+                createPokemon(data);
+            } else {
+                // Mostrar mensaje si no se encuentra el Pokémon
+                const notFoundMessage = document.createElement("p");
+                notFoundMessage.textContent = "Pokémon no encontrado";
+                pokemonContainer.appendChild(notFoundMessage);
+            }
+            spinner.style.display = "none";
+        })
+        .catch((error) => {
+            console.error("Error en la búsqueda:", error);
+            spinner.style.display = "none";
+        });
+}
